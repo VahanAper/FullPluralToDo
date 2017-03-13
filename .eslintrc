@@ -1,0 +1,25 @@
+{
+	"extends": "rallycoding",
+  "rules": {
+    "arrow-body-style": 0,
+    "quote-props": [
+      "error",
+      "as-needed", {
+        "keywords": true,
+        "unnecessary": false
+      }
+    ],
+    "no-throw-literal": 0,
+    "no-underscore-dangle": [
+      "error", { "allowAfterThis": true }
+    ],
+    no-unused-expressions: [
+      "error", { "allowShortCircuit": true }
+    ],
+    import/no-unresolved: [2, { ignore: ['\Render$'] }]
+  },
+  "env": {
+    "node": true,
+    "browser": true
+  }
+}
