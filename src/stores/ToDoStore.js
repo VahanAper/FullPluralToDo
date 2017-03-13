@@ -1,30 +1,59 @@
 import { createStore } from 'redux';
 
+const defaultTodos = [
+  {
+    task: 'Initial ToDo',
+    state: 'pending'
+  }
+];
+
 const defaultState = {
-  todos: [
-    {
-      task: 'Initial ToDo'
-    }
-  ]
+  todos: defaultTodos,
+  allTodos: defaultTodos,
+  filter: 'pending'
 };
 
 function toDoStore(state = defaultState, action) {
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'ADD_TODO': {
+      const allTodos = state.allTodos.concat([
+        {
+          task: action.task,
+          state: 'pending'
+        }
+      ]);
       return Object.assign({}, state, {
-        todos: state.todos.concat([
-          {
-            task: action.task
-          }
-        ])
-      });
-
-    case 'DONE_TODO':
-      return Object.assign({}, state, {
-        todos: state.todos.filter((filterTodo) => {
-          return filterTodo !== action.todo;
+        allTodos,
+        todos: allTodos.filter((todo) => {
+          return todo.state === state.filter;
         })
       });
+    }
+
+    case 'DONE_TODO': {
+      const doneTodo = Object.assign({}, action.todo, {
+        state: 'done'
+      });
+      const updatedAllTodos = state.allTodos.map((todo) => {
+        return todo === action.todo ? doneTodo : todo;
+      });
+      return Object.assign({}, state, {
+        allTodos: updatedAllTodos,
+        todos: updatedAllTodos.filter((todo) => {
+          return todo.state === state.filter;
+        })
+      });
+    }
+
+    case 'TOGGLE_STATE': {
+      const filter = state.filter === 'pending' ? 'done' : 'pending';
+      return Object.assign({}, state, {
+        filter,
+        todos: state.allTodos.filter((todo) => {
+          return todo.state === filter;
+        })
+      });
+    }
 
     default:
       return state;

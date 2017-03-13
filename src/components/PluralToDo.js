@@ -41,6 +41,12 @@ class PluralToDo extends Component {
     });
   }
 
+  onToggle() {
+    store.dispatch({
+      type: 'TOGGLE_STATE'
+    });
+  }
+
   configureScene() {
     return Navigator.SceneConfigs.FloatFromBottom;
   }
@@ -63,6 +69,8 @@ class PluralToDo extends Component {
             onDone={this.onDone.bind(this)}
             onAddStarted={this.onAddStarted.bind(this)}
             todos={this.state.todos}
+            filter={this.state.filter}
+            onToggle={this.onToggle.bind(this)}
           />
         );
     }
