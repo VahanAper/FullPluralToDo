@@ -15,8 +15,7 @@
     ],
     no-unused-expressions: [
       "error", { "allowShortCircuit": true }
-    ],
-    import/no-unresolved: [2, { ignore: ['\Render$'] }]
+    ]
   },
   "env": {
     "node": true,

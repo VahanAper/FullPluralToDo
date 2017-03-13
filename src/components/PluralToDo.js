@@ -3,19 +3,17 @@ import { Navigator } from 'react-native';
 
 import TaskList from './TaskList';
 import TaskForm from './TaskForm';
+import store from '../stores/ToDoStore';
 
 class PluralToDo extends Component {
-  state = {
-    appIsReady: false,
-    todos: [
-      {
-        task: 'Learn React Native',
-      },
-      {
-        task: 'Learn Redux',
-      }
-    ],
-  };
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = store.getState();
+    store.subscribe(() => {
+      this.setState(store.getState());
+    });
+  }
 
   onAddStarted() {
     this.navigator.push({
@@ -28,19 +26,19 @@ class PluralToDo extends Component {
   }
 
   onAdd(task) {
-    this.state.todos.push({ task });
-    this.setState({ todos: this.state.todos });
+    store.dispatch({
+      type: 'ADD_TODO',
+      task
+    });
 
     this.navigator.pop();
   }
 
   onDone(todo) {
-    console.log('Done: ', todo.task);
-    const filteredTodos = this.state.todos.filter((filterTodo) => {
-      return filterTodo !== todo;
+    store.dispatch({
+      type: 'DONE_TODO',
+      todo
     });
-
-    this.setState({ todos: filteredTodos });
   }
 
   configureScene() {

@@ -3,7 +3,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import Render from './Render';
+import Render from './Render'; //eslint-disable-line
 
 class TaskRow extends Component {
   onDonePressed() {
